@@ -86,6 +86,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                         .permitAll()
+                .antMatchers("/console/**")  //Permisos para acceder a la consola de bbdd
+                .permitAll()
                     .antMatchers("/api/auth/**")
                         .permitAll()
                     .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
@@ -94,6 +96,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                     .anyRequest()
                         .authenticated();
+
+        // Enable h2 console page
+        http.headers().frameOptions().sameOrigin(); //Permisos para acceder a la consola de bbdd
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
